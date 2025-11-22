@@ -44,9 +44,9 @@ struct alignas(64) NNUE_Params {
   int16_t output_bias;
 };
 
-INCBIN(nnue, "nets/fingolfin.nnue");
+INCBIN(nnue, "nets/chz.nnue");
 INCBIN(nnue2, "nets/fingolfin.nnue");
-INCBIN(nnue3, "nets/fingolfin.nnue");
+INCBIN(nnue3, "nets/chz.nnue");
 
 const NNUE_Params &g_nnue = *reinterpret_cast<const NNUE_Params *>(g_nnueData);
 const NNUE_Params &g_nnue2 =
