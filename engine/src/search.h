@@ -344,10 +344,10 @@ int qsearch(int alpha, int beta, Position &position, ThreadInfo &thread_info,
                    // immediately return
     if (tt_static_eval == ScoreNone) {
       raw_eval = eval(position, thread_info);
-      best_score = static_eval = raw_eval;
+      best_score = static_eval = correct_eval(position, thread_info, raw_eval);
     } else {
       raw_eval = tt_static_eval;
-      best_score = static_eval = raw_eval;
+      best_score = static_eval = correct_eval(position, thread_info, raw_eval);
     }
 
     if (tt_score != ScoreNone) {
@@ -609,6 +609,7 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
     }
   }
 
+  int corr_weight = static_eval - raw_eval;
   ss->static_eval = static_eval;
 
   bool improving = false;
@@ -880,6 +881,9 @@ int search(int alpha, int beta, int depth, bool cutnode, Position &position,
                            color) != 0);
 
       R += (thread_info.FailHighCount[ply + 1] > 4);
+
+      R += corr_weight > 100;
+      R -= corr_weight < -100;
 
       // Clamp reduction so we don't immediately go into qsearch
       R = std::clamp(R, 0, newdepth - 1);
