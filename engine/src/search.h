@@ -7,7 +7,6 @@
 #include "tm.h"
 #include "utils.h"
 
-
 constexpr int NormalizationFactor = 195;
 
 void update_history(int16_t &entry, int score) { // Update history score
@@ -345,10 +344,10 @@ int qsearch(int alpha, int beta, Position &position, ThreadInfo &thread_info,
                    // immediately return
     if (tt_static_eval == ScoreNone) {
       raw_eval = eval(position, thread_info);
-      best_score = static_eval = correct_eval(position, thread_info, raw_eval);
+      best_score = static_eval = raw_eval;
     } else {
       raw_eval = tt_static_eval;
-      best_score = static_eval = correct_eval(position, thread_info, raw_eval);
+      best_score = static_eval = raw_eval;
     }
 
     if (tt_score != ScoreNone) {
